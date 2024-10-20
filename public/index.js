@@ -32,3 +32,19 @@ getWeatherButton.addEventListener('click', () => {
     alert('Please enter a city name');
   }
 });
+
+function clearWeatherInfo() {
+  document.getElementById('city').innerText = '';
+  document.getElementById('temperature').innerText = '';
+  document.getElementById('description').innerText = '';
+}
+
+getWeatherButton.addEventListener('click', () => {
+  const city = cityInput.value;
+  if (city) {
+    clearWeatherInfo(); 
+    getWeather(city);
+  } else {
+    alert('Please enter a city name');
+  }
+});
