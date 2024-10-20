@@ -3,9 +3,12 @@ const cityInput = document.getElementById('city-input');
 const getWeatherButton = document.getElementById('get-weather');
 
 function getWeather(city) {
+  const loadingSpinner = document.getElementById('loading-spinner');
+  loadingSpinner.style.display = 'block'; 
   fetch(`/api/weather?city=${encodeURIComponent(city)}`)
     .then(response => response.json())
     .then(data => {
+      loadingSpinner.style.display = 'none'; 
       if (data.cod === 200) {
         document.getElementById('city').innerText = `City: ${data.name}`;
         document.getElementById('temperature').innerText = `Temperature: ${data.main.temp}°C`;
@@ -15,6 +18,7 @@ function getWeather(city) {
       }
     })
     .catch(error => {
+      loadingSpinner.style.display = 'none'; 
       console.error('Error:', error);
       alert('Could not retrieve weather data. Please try again.');
     });
