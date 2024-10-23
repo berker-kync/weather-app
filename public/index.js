@@ -1,10 +1,12 @@
 console.log("Weather app starting...");
+
 const cityInput = document.getElementById('city-input');
 const getWeatherButton = document.getElementById('get-weather');
 
 function getWeather(city) {
   const loadingSpinner = document.getElementById('loading-spinner');
   loadingSpinner.style.display = 'block'; 
+
   fetch(`/api/weather?city=${encodeURIComponent(city)}`)
     .then(response => response.json())
     .then(data => {
@@ -24,15 +26,6 @@ function getWeather(city) {
     });
 }
 
-getWeatherButton.addEventListener('click', () => {
-  const city = cityInput.value;
-  if (city) {
-    getWeather(city);
-  } else {
-    alert('Please enter a city name');
-  }
-});
-
 function clearWeatherInfo() {
   document.getElementById('city').innerText = '';
   document.getElementById('temperature').innerText = '';
@@ -42,9 +35,19 @@ function clearWeatherInfo() {
 getWeatherButton.addEventListener('click', () => {
   const city = cityInput.value;
   if (city) {
+    localStorage.setItem('lastCity', city); 
     clearWeatherInfo(); 
     getWeather(city);
   } else {
     alert('Please enter a city name');
+  }
+});
+
+
+window.addEventListener('load', () => {
+  const lastCity = localStorage.getItem('lastCity');
+  if (lastCity) {
+    cityInput.value = lastCity;
+    getWeather(lastCity); 
   }
 });
